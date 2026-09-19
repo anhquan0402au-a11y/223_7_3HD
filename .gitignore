@@ -1,0 +1,8 @@
+bin/
+obj/
+TestResults/
+.sonarqube/
+*.user
+.vs/
+coverage*.xml
+trivy-*-report.*

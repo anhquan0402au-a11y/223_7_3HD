@@ -1,0 +1,12 @@
+# Deploy stage target: a staging container built from the LOCAL image.
+# Host port 8081 -> container 8080
+services:
+  orderapi-staging:
+    image: ${IMAGE:-orderapi:latest}
+    container_name: orderapi-staging
+    ports:
+      - "8081:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ApiKey=dev-secret-key
+    restart: unless-stopped

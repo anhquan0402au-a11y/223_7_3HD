@@ -1,0 +1,19 @@
+# Release stage target: production container from the image pushed to Docker Hub.
+# Joins the shared "devops-net" network so Prometheus can scrape it by name.
+# Host port 8080 -> container 8080
+services:
+  orderapi-prod:
+    image: ${IMAGE}
+    container_name: orderapi-prod
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ApiKey=${API_KEY:-prod-secret-key}
+    networks:
+      - devops-net
+    restart: unless-stopped
+
+networks:
+  devops-net:
+    external: true

@@ -1,0 +1,20 @@
+groups:
+  - name: orderapi-alerts
+    rules:
+      - alert: OrderApiDown
+        expr: up{job="orderapi"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Order API is down"
+          description: "Prometheus has not been able to scrape the Order API for 15 seconds."
+
+      - alert: HighHttp5xxRate
+        expr: rate(http_request_duration_seconds_count{code=~"5.."}[1m]) > 0.2
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 5xx error rate on Order API"
+          description: "The Order API is returning server errors above the threshold."

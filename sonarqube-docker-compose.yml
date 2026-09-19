@@ -1,0 +1,22 @@
+# Code Quality stage server. Open http://localhost:9000 (first login admin/admin).
+# Apple Silicon (M-chip): this image is arm64-native (SonarQube >= 9.9), runs natively.
+# If it ever feels heavy on the laptop, pin a lighter version: sonarqube:9.9-community
+services:
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      # Relax Elasticsearch bootstrap checks so it runs on a laptop.
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+      - sonar_logs:/opt/sonarqube/logs
+    restart: unless-stopped
+
+volumes:
+  sonar_data:
+  sonar_extensions:
+  sonar_logs:

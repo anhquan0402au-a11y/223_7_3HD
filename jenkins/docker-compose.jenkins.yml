@@ -1,0 +1,19 @@
+# Builds and runs the custom Jenkins. UI on http://localhost:8085
+# Runs as root purely so the mounted docker.sock is accessible - fine for a
+# local, throwaway coursework Jenkins (do NOT do this on a real server).
+services:
+  jenkins:
+    build: .
+    image: jenkins-devops:lts
+    container_name: jenkins
+    user: root
+    ports:
+      - "8085:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
