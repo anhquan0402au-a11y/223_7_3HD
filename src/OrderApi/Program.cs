@@ -15,6 +15,7 @@ namespace OrderApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<IOrderService, OrderService>();
+            builder.Services.AddHealthChecks();
 
             WebApplication app = builder.Build();
 
@@ -33,6 +34,9 @@ namespace OrderApi
             app.MapMetrics();
             app.MapGet("/health", () => Results.Ok(new { status = "healthy" }));
 
+            app.MapHealthChecks("/health");
+
+            
             app.Run();
         }
     }
